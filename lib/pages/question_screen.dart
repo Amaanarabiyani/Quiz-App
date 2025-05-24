@@ -12,36 +12,31 @@ class QuestionScreen extends StatefulWidget {
 }
 
 class _QuestionScreenState extends State<QuestionScreen> {
+  var currenQuestionIndex = 0;
+
+  void answerQuestion() {
+    setState(() {
+      currenQuestionIndex++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = questions[0];
-    
+    var currentQuestion = questions[currenQuestionIndex];
+
     return Container(
       margin: EdgeInsets.all(40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-            child: Text(
-              textAlign: TextAlign.center,
-              currentQuestion.text,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          Center(child: Text(textAlign: TextAlign.center, currentQuestion.text, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
 
           SizedBox(height: 40),
 
           ...currentQuestion.shuffeledAnser().map((answer) {
-            return AnswerButton(
-              text: answer,
-              ontap: () {
-                log('Tapped: $answer');
-              },
-            );
+            return AnswerButton(text: answer, ontap: answerQuestion);
           }),
         ],
       ),
